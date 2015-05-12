@@ -9,5 +9,9 @@ apply(str_match_all("C1C(C2(CC1)C)CC2C","C[0-9%\\(]*(?=(C))")[[1]],1,function(x)
 ##First step finds all reasonable element names
 gregexpr("[A-Z][a-z]{,2}","C1C(C2(CC1)C)CC2C")
 ##Second step sets up matrix of two columns and rownumber equal to the number of letter matches
-matrix(0,ncol=2,nrow=length(unlist(gregexpr("[A-Z][a-z]{,2}","C1C(C2(CC1)C)CC2C"))))
+dump<-matrix(0,ncol=2,nrow=length(unlist(gregexpr("[A-Z][a-z]{,2}","C1C(C2(CC1)C)CC2C"))))
+start<-unlist(gregexpr("C[0-9%\\(]*(?=(C))","C1C(C2(CC1)C)CC2C",perl=T))
+capture.start<-attr(gregexpr("C[0-9%\\(]*(?=(C))","C1C(C2(CC1)C)CC2C",perl=T)[[1]],"capture.start")
+links<-cbind(start,capture.start)
+
 #List all C-C single bonds in the molecule C1C(C2(CC1)C)CC2C
