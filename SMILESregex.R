@@ -1,15 +1,18 @@
 #List all C-C single bonds in the molecule C1C(C2(CC1)C)CC2C which are not number connections (i.e. ring closures)
 require(stringr)
 apply(str_match_all("C1C(C2(CC1)C)CC2C","C[0-9%\\(]*(?=(C))")[[1]],1,function(x) paste0(x,collapse=""))
-#Which is the same as
-
-#List positions in string for each match
-
-#List all positions in the match as igraph two-column matrix
+#Search for adjacent element-element bonds by regex
+#Search for non-adjacent, numbered bonds (regex)
+#Search for "="
+#Search for "#"
+#Assemble in list
+#OPTION 1: List all positions in the match as igraph two-column matrix
+#OPTION 2: Show the captured substrings as text strings
+#OPTION 3: List all positions as numeric
 ##First, define starting position and start of capture position. cbind() values to make a 2 column matrix
-start<-unlist(gregexpr("C[0-9%\\(]*(?=(C))","C1C(C2(CC1)C)CC2C",perl=T))
-capture.start<-attr(gregexpr("C[0-9%\\(]*(?=(C))","C1C(C2(CC1)C)CC2C",perl=T)[[1]],"capture.start")
-links<-cbind(start,capture.start)
+startSimpleAdjacency<-unlist(gregexpr("C[0-9%\\(]*(?=(C))","C1C(C2(CC1)C)CC2C",perl=T))
+captureStartSimpleAdjacency<-attr(gregexpr("C[0-9%\\(]*(?=(C))","C1C(C2(CC1)C)CC2C",perl=T)[[1]],"capture.start")
+links.sb<-cbind(startSimpleAdjacency,captureStartSimpleAdjacency)
 #This 2 column matrix should be adequate for graph.edgelist() in the igraph package.
 #List all C-C single bonds in the molecule C1C(C2(CC1)C)CC2C
 #For matching atoms with numbers to show their connectivity, 
